@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function RegisterPage() {
@@ -5,8 +7,18 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function registerUser() {
-
+  async function registerUser(ev) {
+    ev.preventDefault();
+    try {
+      await axios.post("/api/users", {
+        name,
+        email,
+        password,
+      });
+      alert("Registration successful! You can now log in.");
+    } catch (error) {
+      alert("Registration failed. Please try again later." + error);
+    }
   }
 
   return (
@@ -33,9 +45,7 @@ export default function RegisterPage() {
               onChange={(ev) => setPassword(ev.target.value)}
               placeholder="***********"
             />
-            <button className="login">
-              Register
-            </button>
+            <button className="login">Register</button>
           </form>
 
           <div className="text-center py-2">
